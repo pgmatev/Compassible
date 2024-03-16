@@ -23,7 +23,7 @@ authRouter.post(
     if (!user) {
       try {
         const result = await userService.register({ username, password });
-        res.send({ registered: result.id });
+        return res.send({ userId: result.id });
       } catch (error) {
         if (error instanceof UsernameAlreadyExistsError) {
           throw new BadRequestError("Username already exists");
@@ -32,6 +32,7 @@ authRouter.post(
         throw error;
       }
     }
+    res.send({ userId: user.id });
   })
 );
 

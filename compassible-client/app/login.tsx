@@ -1,12 +1,32 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
+const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    console.log('Logging in with:', { username, password });
+  const handleLogin = async () => {
+    try {
+      const response = await fetch(`${baseUrl}/login`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to login');
+      }
+  
+      const data = await response.json();
+      return data;
+    } catch (error:any) {
+      console.error('Error logging in:', error.message);
+      throw error;
+    }
   };
 
   return (

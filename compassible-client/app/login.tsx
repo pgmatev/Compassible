@@ -1,8 +1,10 @@
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground, Image } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
+
 const Login = () => {
   const router = useRouter();
 
@@ -25,8 +27,8 @@ const Login = () => {
       }
   
       const data = await response.json();
+      await AsyncStorage.setItem('userId', JSON.stringify(data.userId));
       router.replace('/home');
-      return data;
     } catch (error:any) {
       console.error('Error logging in:', error.message);
       throw error;
@@ -34,62 +36,79 @@ const Login = () => {
   };
 
   return (
+    <ImageBackground source={require('../assets/images/background.png')} resizeMode="cover" style={styles.image}>
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+      <Image source={require('../assets/images/icon.png')} style={styles.icon}></Image>
+      <Text nativeID="labelUsername" style={styles.lable}>Username</Text>
       <TextInput
         style={styles.input}
-        placeholder="Username"
         value={username}
         onChangeText={setUsername}
         autoCapitalize="none"
       />
+      <Text nativeID="labelPassword" style={styles.lable}>Password</Text>
       <TextInput
         style={styles.input}
-        placeholder="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
+        <Text style={styles.buttonText}>Sign up</Text>
       </TouchableOpacity>
     </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor:"white",
+    width:'100%',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
   },
-  title: {
-    fontSize: 24,
+  image: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  icon: {
+    height: 155,
+    width: 100,
+    marginBottom:100
+  },
+  lable: {
+    fontSize: 18,
+    color: 'white',
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 8,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
   },
   input: {
-    width: '100%',
-    height: 40,
-    borderWidth: 1,
+    width: '75%',
+    height: 50,
+    borderWidth: 2,
     borderColor: '#ccc',
-    borderRadius: 5,
-    marginBottom: 10,
+    borderRadius: 50,
+    marginBottom: 18,
     paddingHorizontal: 10,
   },
   button: {
-    width: '100%',
-    height: 40,
-    backgroundColor: 'blue',
+    width: '75%',
+    height: 50,
+    backgroundColor: '#E51369',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 5,
+    borderRadius: 50,
   },
   buttonText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
   },
 });

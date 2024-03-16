@@ -1,5 +1,5 @@
 import convict from "convict";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
 const config = convict({
@@ -44,7 +44,6 @@ const config = convict({
       default: "1h",
     },
   },
-
 });
 
 config.validate();

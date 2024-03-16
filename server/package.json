@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "nodemon"
+    "start": "nodemon",
+    "migrate:latest": "knex migrate:latest",
+    "migrate:make": "knex migrate:make --",
+    "seed:make": "knex seed:make --",
+    "seed": "knex seed:run"
   },
   "author": "Petar-Gabriel Matev",
   "license": "ISC",

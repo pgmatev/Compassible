@@ -1,8 +1,11 @@
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
 const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
 const Login = () => {
+  const router = useRouter();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -22,6 +25,7 @@ const Login = () => {
       }
   
       const data = await response.json();
+      router.replace('/home');
       return data;
     } catch (error:any) {
       console.error('Error logging in:', error.message);
@@ -55,6 +59,7 @@ const Login = () => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor:"white",
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

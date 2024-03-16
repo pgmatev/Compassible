@@ -8,7 +8,7 @@ import { useColorScheme } from "@/components/useColorScheme";
 
 export { ErrorBoundary } from "expo-router";
 
-export const unstable_settings = { initialRouteName: "login" };
+// export const unstable_settings = { initialRouteName: "login" };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();

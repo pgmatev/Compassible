@@ -1,0 +1,326 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Бордови игри</title>
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap');
+
+      html, body {
+        margin: 0;
+        padding: 0;
+
+        font-family: Rubik;
+      }
+
+      @media (min-width: 600px) {
+        body {
+          display: grid;
+          grid-template-columns: 1fr 5fr 1fr;
+          grid-template-rows: auto;
+          grid-template-areas: 
+          "header header header"
+          ". posts .";
+        }
+      }
+
+      @media (max-width: 600px) {
+        body {
+          display: grid;
+          grid-template-columns: 1fr;
+          grid-template-rows: auto;
+          grid-template-areas: 
+          "header"
+          "posts";
+        }
+      }
+
+      
+      @media (max-width: 600px) {
+        .site-header {
+          grid-area: header;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: 50px 50px;
+          grid-template-areas: 
+          "logo profile"
+          "menu menu";
+          background-color: blueviolet;
+        }
+      }
+
+      @media (min-width: 600px) {
+        .site-header {
+          grid-area: header;
+          display: grid;
+          grid-template-columns: 1fr 5fr 1fr;
+          grid-template-rows: 50px;
+          grid-template-areas: 
+          "logo menu profile";
+          background-color: blueviolet;
+        }
+      }
+
+      .logo {
+          grid-area: logo;
+          color: white;
+          font-weight: bold;
+          font-size: 30px;
+          padding-left: 20px;
+          align-self: center;
+      }
+
+      .menu {
+          grid-area: menu;
+          justify-self: center;
+          align-self: center;
+      }
+
+      .menu a {
+          text-decoration: none;
+          color: white;
+          border: 1px solid rgba(255, 255, 255, 0.5);
+          border-radius: 5px;
+          padding: 10px;
+          margin: 0 5px;
+          font-weight: bold;
+      }
+
+      .menu .active {
+          color: blueviolet;
+          background-color: white;
+      }
+
+      .profile {
+          grid-area: profile;
+          justify-self: end;
+          display: grid;
+          grid-template-areas: 
+          "picture name";
+          text-decoration: none;
+          align-items: center;
+          column-gap: 5px;
+          padding-right: 20px;
+      }
+
+      .profile img {
+          grid-area: picture;
+          width: 30px;
+          height: 30px;
+          border-radius: 30px;
+      }
+
+      .profile .name {
+          grid-area: name;
+          color: white;
+      }
+
+      .friend-posts {
+          grid-area: posts;
+      }
+
+      .friend-posts .page-title {
+        color: blueviolet;
+        font-size: 48px;
+      }
+      @media (min-width: 600px) {
+        .post {
+          display: grid;
+          grid-template-areas: 
+          "title title title"
+          "image author time"
+          "image content content"
+          "controls controls controls"
+          "comments comments comments";
+          grid-template-columns: 2fr 2fr 1fr;
+          grid-template-rows: auto auto 1fr;
+          grid-column-gap: 10px;
+          border: 1px solid blueviolet;
+          border-radius: 5px;
+          box-shadow: 1px 1px 10px blueviolet;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .post {
+          margin: 0 10px;
+          display: grid;
+          grid-template-areas: 
+          "title title"
+          "author time"
+          "image image"
+          "content content"
+          "controls controls"
+          "comments comments";
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: auto auto 1fr;
+          grid-column-gap: 10px;
+          border: 1px solid blueviolet;
+          border-radius: 5px;
+          box-shadow: 1px 1px 10px blueviolet;
+        }
+      }
+
+      .post .title {
+        grid-area: title;
+        background-color: blueviolet;
+        color: white;
+        align-self: center;
+        padding: 20px 10px;
+        margin: 0;
+      }
+
+      .post .image {
+        grid-area: image;
+        place-self: stretch;
+      }
+
+      .post .author {
+        margin: 0 10px;
+        grid-area: author;
+        display: grid;
+        grid-template-areas: 
+        "picture name";
+        grid-template-columns: 50px auto;
+        grid-template-rows: 50px;
+        grid-column-gap: 10px;
+        justify-content: start;
+        align-content: center;
+        padding: 10px 0;
+
+      }
+
+      .post .author img {
+        grid-area: picture;
+        place-self: stretch;
+        border-radius: 40px;
+      }
+
+      .post .author .name {
+        align-self: center;
+        font-size: 20px;
+      }
+
+      .post .time {
+        grid-area: time;
+        align-self: center;
+        justify-self: end;
+        padding: 0 10px;
+        color: gray;
+      }
+
+      .post .content {
+        grid-area: content;
+        padding: 10px;
+      }
+
+      .post .controls {
+        grid-area: controls;
+        background-color: blueviolet;
+
+      }
+
+      .post .controls button {
+        all: unset;
+        background-color: blueviolet;
+        color: white;
+        font-weight: bold;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 5px;;
+        padding: 5px;
+        margin: 5px;
+      }
+
+      .post .comments {
+        grid-area: comments;
+      }
+
+      .comment {
+        display: grid;
+        grid-template-areas: 
+        "author-image author-name time"
+        "body body body";
+        grid-template-columns: 50px auto auto;
+        border-bottom: 1px solid blueviolet;
+        grid-column-gap: 5px;
+        padding: 10px;
+      }
+
+      .comment .author-image {
+        grid-area: author-image;
+        place-self: stretch;
+        border-radius: 50px;
+      }
+
+      .comment .author-name {
+        grid-area: author-name;
+        align-self: center;
+      }
+
+      .comment .body {
+        grid-area: body;
+      }
+      /* Пишете код тук */
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="logo">BoardGames</div>
+
+      <nav class="menu">
+        <a class="active" href="#">Начало</a>
+        <a href="#">Класации</a>
+        <a href="#">Онлайн игри</a>
+      </nav>
+
+      <a href="#" class="profile">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/VAN_CAT.png/440px-VAN_CAT.png">
+        <div class="name">Г-н Митенс</div>
+      </a>
+    </header>
+
+    <main class="friend-posts">
+      <h1 class="page-title">Постове на приятели</h1>
+
+      <div class="post">
+        <h2 class="title">Какво мислите за Hero Realms?</h2>
+
+        <img class="image" src="https://www.boardgamequest.com/wp-content/uploads/2017/02/Hero-Realms.jpg">
+
+        <div class="author">
+          <img src="https://thumbs.dreamstime.com/b/cat-avatar-illustration-cartoon-45383590.jpg">
+          <div class="name">Жената-Котка</div>
+        </div>
+
+        <div class="time">Преди 4 часа</div>
+
+        <p class="content">Някой играл ли е Hero Realms? Заслужава ли си парите за expansion-ите?</p>
+
+        <div class="controls">
+          <button>Харесай</button>
+          <button>Коментирай</button>
+        </div>
+
+        <div class="comments">
+          <div class="comment">
+            <img class="author-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/VAN_CAT.png/440px-VAN_CAT.png">
+            <div class="author-name">Г-н Митенс</div>
+            <div class="time">Преди 2 часа</div>
+
+            <p class="body">Играта е много добра, определено си заслужава!</p>
+          </div>
+
+          <div class="comment">
+            <img class="author-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Bongo_Cat_Redraw.png/211px-Bongo_Cat_Redraw.png">
+            <div class="author-name">Г-жа Митенс</div>
+            <div class="time">Преди 1 час</div>
+
+            <p class="body">Силно препоръчвам, особено за групички от по около 4 човека - може да играете с бос тестетата, може да играете един срещу друг отборно, всеки за себе си, и дори има вариант, в който можете да играете срещу NPC-та.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

@@ -36,9 +36,11 @@ const Login = () => {
   };
 
   return (
-    <ImageBackground source={require('../assets/images/background.png')} resizeMode="cover" style={styles.image}>
-    <View style={styles.container}>
-      <Image source={require('../assets/images/icon.png')} style={styles.icon}></Image>
+    <ImageBackground source={require('../assets/images/background.png')} resizeMode="cover" style={styles.background}>
+      <View style={styles.container_row}>
+    <Image source={require('../assets/images/icon.png')} style={styles.icon}></Image>
+      </View>
+    <View style={styles.container_column}>
       <Text nativeID="labelUsername" style={styles.lable}>Username</Text>
       <TextInput
         style={styles.input}
@@ -62,21 +64,30 @@ const Login = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  container_row: {
     width:'100%',
     flex: 1,
+    flexDirection:'row',
     justifyContent: 'center',
+    marginTop: 20
+  },
+  container_column: {
+    width:'100%',
+    flex: 3,
+    flexDirection:'column',
     alignItems: 'center',
     padding: 20,
   },
-  image: {
+  background: {
     flex: 1,
     justifyContent: 'center',
   },
   icon: {
     height: 155,
     width: 100,
-    marginBottom:100
+  },
+  lable_container: {
+    backgroundColor:'red',
   },
   lable: {
     fontSize: 18,
@@ -94,6 +105,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderWidth: 2,
     borderColor: '#ccc',
+    color: 'white',
     borderRadius: 50,
     marginBottom: 18,
     paddingHorizontal: 10,
@@ -105,6 +117,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 50,
+    marginTop: 80
   },
   buttonText: {
     color: 'white',

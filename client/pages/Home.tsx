@@ -6,6 +6,8 @@ import { RadioButtonGroup } from "../components/RadioButtonGroup";
 import { useAsyncAction } from "../hooks/useAsyncAction";
 import { io } from "socket.io-client";
 
+import { useNavigation } from "@react-navigation/native";
+
 export interface Answer {
   answer: string;
   createdAt?: string;
@@ -53,6 +55,8 @@ export function Home() {
     setAnswers(data.answers);
   }, []);
 
+  const { navigate } = useNavigation();
+
   const { trigger: handleSubmit } = useAsyncAction(async (answer: Answer) => {
     const userId = await AsyncStorage.getItem("userId");
 
@@ -69,7 +73,7 @@ export function Home() {
       throw new Error("Failed to answer");
     }
 
-    console.log("successfully answered");
+    navigate("Session");
   });
 
   if (loading || !answers || !question) {

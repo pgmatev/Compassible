@@ -17,6 +17,7 @@ import { z } from "zod";
 import { User } from "../models/user";
 import { AnswerModel } from "../models/answer";
 import { UserAnswer } from "../models/users-answers-model";
+import { Server } from "socket.io";
 
 const questionRouter = Router();
 const questionService = new QuestionService();
@@ -57,11 +58,13 @@ questionRouter.post(
       answerId: Number(answerId),
     });
 
+    const io = res.locals.io as Server;
+
     if (similarUser) {
-      console.log(req.locals.io, "<<");
+      console.log(io, "<<");
       // sessionService.createSession(user, similarUser);
-      req.locals.io.emit("session", { userId });
-      console.log(req.locals.io.sockets, "SOCKETS");
+      io.emit("session", { userId });
+      console.log(io.sockets, "SOCKETS");
     } else {
     }
 

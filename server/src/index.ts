@@ -10,15 +10,6 @@ import { questionRouter } from "./routers/question-router";
 import http from "http";
 import * as socketIo from "socket.io";
 
-declare namespace Express {
-  export interface CustomLocals {
-    io: socketIo.Server;
-  }
-  export interface Request {
-    locals: CustomLocals;
-  }
-}
-
 //Connection to the database
 const knexClient = knex(knexConfig.development);
 Model.knex(knexClient);
@@ -39,7 +30,7 @@ app.use(json());
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
 
-  req.locals.io = io;
+  res.locals.io = io;
   next();
 });
 

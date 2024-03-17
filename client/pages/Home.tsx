@@ -16,7 +16,7 @@ export interface Answer {
   updatedAt?: string;
 }
 
-const socket = io("ws://10.108.7.89:3000");
+const socket = io("ws://10.108.7.89:3001");
 
 export function Home() {
   const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
@@ -90,3 +90,5 @@ export function Home() {
     </View>
   );
 }
+
+// const styles = StyleSheet.create({});

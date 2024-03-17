@@ -39,4 +39,5 @@ app.use("/questions", questionRouter);
 app.use("/", authRouter);
 
 app.listen(port);
+io.listen(3001);
 console.log("Server started on port ", port);

@@ -1,23 +1,22 @@
 import { BaseModel } from "./base-model";
 import { Model } from "objection";
-import { QuestionModel } from "./question";
 import { User } from "./user";
 
 export class AnswerModel extends BaseModel {
   static readonly tableName = "answers";
   answer!: string;
   questionId!: number;
-  users!: User;
+  users!: User[];
 
   static relationMappings = {
-    question: {
-      relation: Model.BelongsToOneRelation,
-      modelClass: QuestionModel,
-      join: {
-        from: "answers.questionId",
-        to: "questions.id",
-      },
-    },
+    // question: {
+    //   relation: Model.BelongsToOneRelation,
+    //   modelClass: QuestionModel,
+    //   join: {
+    //     from: "answers.questionId",
+    //     to: "questions.id",
+    //   },
+    // },
     users: {
       relation: Model.ManyToManyRelation,
       modelClass: User,

@@ -5,6 +5,7 @@ import { Model } from "objection";
 export class QuestionModel extends BaseModel {
   static readonly tableName = "questions";
   question!: string;
+  answers!: AnswerModel[];
 
   static relationMappings = {
     answers: {

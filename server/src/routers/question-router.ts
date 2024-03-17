@@ -16,6 +16,7 @@ import { QuestionService } from "../services/active-question-service";
 import { z } from "zod";
 import { User } from "../models/user";
 import { AnswerModel } from "../models/answer";
+import { UserAnswer } from "../models/users-answers-model";
 
 const questionRouter = Router();
 const questionService = new QuestionService();
@@ -51,18 +52,18 @@ questionRouter.post(
 
     await user.$relatedQuery("answers").relate(answer);
 
-
     // THIS SHOULD BE IN ANOTHER SERVIVE
-    // const similarUser = await User.query()
-    //   .whereExists(User.relatedQuery("answers").where("id", answerId))
-    //   .first();
+    const similarUser = await UserAnswer.query().where({
+      answerId: Number(answerId),
+    });
 
-    // if (similarUser) {
-    //   sessionService.createSession(user, similarUser);
-    // }
-    // else {
-
-    // }
+    if (similarUser) {
+      console.log(req.locals.io, "<<");
+      // sessionService.createSession(user, similarUser);
+      req.locals.io.emit("session", { userId });
+      console.log(req.locals.io.sockets, "SOCKETS");
+    } else {
+    }
 
     res.send({ message: "successful" });
   })

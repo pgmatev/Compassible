@@ -1,9 +1,10 @@
 import { View, Text } from "react-native";
 import { useAsync } from "../hooks/useAsync";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RadioButtonGroup } from "../components/RadioButtonGroup";
 import { useAsyncAction } from "../hooks/useAsyncAction";
+import { io } from "socket.io-client";
 
 export interface Answer {
   answer: string;
@@ -13,7 +14,22 @@ export interface Answer {
   updatedAt?: string;
 }
 
+const socket = io("ws://10.108.7.89:3000");
+
 export function Home() {
+  useEffect(() => {
+    socket.connect();
+    // console.log("socket after connect", socket);
+
+    socket.on("session", ({ userId }) => {
+      console.log("session,", userId);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
   const [question, setQuestion] = useState<string>();
   const [answers, setAnswers] = useState<Answer[]>();
   const { loading } = useAsync(async () => {
@@ -49,8 +65,6 @@ export function Home() {
       },
       body: JSON.stringify({ answerId: answer.id, userId }),
     });
-
-    console.log(JSON.stringify({ answerId: answer.id, userId }), "==-=-=");
 
     if (!response.ok) {
       throw new Error("Failed to answer");

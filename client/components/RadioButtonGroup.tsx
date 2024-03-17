@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Button } from "react-native";
+import { Answer } from "../pages/Home";
 
 interface RadioButtonProps {
   option: string;
@@ -42,8 +43,8 @@ function RadioButton({ option, isSelected, onPress }: RadioButtonProps) {
 
 interface RadioButtonGroupProps {
   question: string;
-  answers: string[];
-  onSubmit: (selectedAnswer: string) => void;
+  answers: Answer[];
+  onSubmit: (selectedAnswer: Answer) => void;
 }
 
 export function RadioButtonGroup({
@@ -51,27 +52,27 @@ export function RadioButtonGroup({
   answers,
   onSubmit,
 }: RadioButtonGroupProps) {
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [selectedAnswer, setSelectedAnswer] = useState<Answer | null>(null);
 
-  const handleSelectAnswer = (index: number) => {
-    setSelectedAnswer(index);
+  const handleSelectAnswer = (answer: Answer) => {
+    setSelectedAnswer(answer);
   };
 
   const handleSubmit = () => {
     if (selectedAnswer !== null) {
-      onSubmit(answers[selectedAnswer]);
+      onSubmit(selectedAnswer);
     }
   };
 
   return (
     <View style={{ margin: 10 }}>
       <Text>{question}</Text>
-      {answers.map((answer, index) => (
+      {answers.map((answer) => (
         <RadioButton
-          key={index}
-          option={answer}
-          isSelected={index === selectedAnswer}
-          onPress={() => handleSelectAnswer(index)}
+          key={answer.id}
+          option={answer.answer}
+          isSelected={answer.id === selectedAnswer?.id}
+          onPress={() => handleSelectAnswer(answer)}
         />
       ))}
       <Button

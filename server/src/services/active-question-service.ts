@@ -1,3 +1,4 @@
+import knex from "knex";
 import { ActiveQuestionModel } from "../models/active-question";
 import { QuestionModel } from "../models/question";
 
@@ -15,6 +16,8 @@ export class QuestionService {
       .first();
 
     await ActiveQuestionModel.query().delete();
+    await knex("users_answers").del();
+
     return await ActiveQuestionModel.query().insert({
       questionId: question?.id,
       expirationTime: new Date(new Date().getTime() + 10 * 60000),

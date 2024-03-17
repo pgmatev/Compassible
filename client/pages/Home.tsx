@@ -5,7 +5,7 @@ import { useState } from "react";
 import { RadioButtonGroup } from "../components/RadioButtonGroup";
 import { useAsyncAction } from "../hooks/useAsyncAction";
 
-interface Answer {
+export interface Answer {
   answer: string;
   createdAt?: string;
   id: number;
@@ -15,7 +15,7 @@ interface Answer {
 
 export function Home() {
   const [question, setQuestion] = useState<string>();
-  const [answers, setAnswers] = useState<string[]>();
+  const [answers, setAnswers] = useState<Answer[]>();
   const { loading } = useAsync(async () => {
     const response = await fetch(`http://10.108.7.89:3000/questions`, {
       method: "GET",
@@ -30,15 +30,33 @@ export function Home() {
     }
 
     const data = await response.json();
-    console.log("++++", data);
 
     setQuestion(JSON.stringify(data.question));
-    setAnswers(data.answers.map((answer: Answer) => answer.answer));
+    setAnswers(data.answers);
   }, []);
 
-  const { trigger: handleSubmit } = useAsyncAction(async () => {
+  const { trigger: handleSubmit } = useAsyncAction(async (answer: Answer) => {
     // TODO
-    console.log("submitted");
+    // console.log("submitted", answer.id);
+
+    const userId = await AsyncStorage.getItem("userId");
+
+    const response = await fetch(`http://10.108.7.89:3000/questions`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ answerId: answer.id, userId }),
+    });
+
+    console.log(JSON.stringify({ answerId: answer.id, userId }), "==-=-=");
+
+    if (!response.ok) {
+      throw new Error("Failed to answer");
+    }
+
+    console.log("successfully answered");
   });
 
   if (loading || !answers || !question) {

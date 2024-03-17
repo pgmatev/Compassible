@@ -13,10 +13,8 @@ import {
 } from "../services/user-service";
 import { authMiddleware, getUserFromLocals } from "../middlewares/auth";
 import { QuestionService } from "../services/active-question-service";
-import { QuestionTransformer } from "../transformers/question-transformer";
 
 const questionRouter = Router();
-const questionTranformer = new QuestionTransformer();
 const questionService = new QuestionService();
 
 questionRouter.get(

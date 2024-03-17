@@ -1,4 +1,3 @@
-import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   View,
@@ -10,20 +9,21 @@ import {
   Image,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useAsyncAction } from "@/hooks/useAsyncAction";
+import { useAsyncAction } from "../hooks/useAsyncAction";
+import { useNavigation } from "@react-navigation/native";
 
 // const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
 const serverUrl = process.env.SERVER_URL;
 
 const Login = () => {
-  const router = useRouter();
-
+  const navigation = useNavigation();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const { trigger: handleLogin } = useAsyncAction(async () => {
     try {
-      const response = await fetch(`${serverUrl}/login`, {
+      //todo: the link should be in process.env pls fix
+      const response = await fetch(`http://10.108.7.89:3000/login`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -32,16 +32,13 @@ const Login = () => {
         body: JSON.stringify({ username, password }),
       });
 
-      console.log("RESPONSE", response);
-
       if (!response.ok) {
-        console.log(response);
         throw new Error("Failed to login");
       }
 
       const data = await response.json();
       await AsyncStorage.setItem("userId", JSON.stringify(data.userId));
-      router.replace("/home");
+      navigation.navigate("Home");
     } catch (error: any) {
       console.error("Error logging in:", error.message);
       throw error;

@@ -1,10 +1,9 @@
-import { QuestionModel } from "../models/question";
-
 export class QuestionTransformer {
-  transformWithAnswers(question: QuestionModel) {
+  transform(question: Question) {
     return {
-      ...question,
-      answers: question.answers,
+      id: question.id,
+      question: question.question,
+      answers: 
     };
   }
 }

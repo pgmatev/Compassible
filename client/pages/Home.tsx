@@ -17,6 +17,8 @@ export interface Answer {
 const socket = io("ws://10.108.7.89:3000");
 
 export function Home() {
+  const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
+
   useEffect(() => {
     socket.connect();
     // console.log("socket after connect", socket);
@@ -33,7 +35,7 @@ export function Home() {
   const [question, setQuestion] = useState<string>();
   const [answers, setAnswers] = useState<Answer[]>();
   const { loading } = useAsync(async () => {
-    const response = await fetch(`http://10.108.7.89:3000/questions`, {
+    const response = await fetch(`${baseUrl}/questions`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -52,12 +54,9 @@ export function Home() {
   }, []);
 
   const { trigger: handleSubmit } = useAsyncAction(async (answer: Answer) => {
-    // TODO
-    // console.log("submitted", answer.id);
-
     const userId = await AsyncStorage.getItem("userId");
 
-    const response = await fetch(`http://10.108.7.89:3000/questions`, {
+    const response = await fetch(`${baseUrl}/questions`, {
       method: "POST",
       headers: {
         Accept: "application/json",

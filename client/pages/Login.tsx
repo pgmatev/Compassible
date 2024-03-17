@@ -12,8 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAsyncAction } from "../hooks/useAsyncAction";
 import { useNavigation } from "@react-navigation/native";
 
-// const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
-const serverUrl = process.env.SERVER_URL;
+const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
 
 const Login = () => {
   const navigation = useNavigation();
@@ -22,8 +21,7 @@ const Login = () => {
 
   const { trigger: handleLogin } = useAsyncAction(async () => {
     try {
-      //todo: the link should be in process.env pls fix
-      const response = await fetch(`http://10.108.7.89:3000/login`, {
+      const response = await fetch(`${baseUrl}/login`, {
         method: "POST",
         headers: {
           Accept: "application/json",

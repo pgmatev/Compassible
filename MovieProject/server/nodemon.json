@@ -1,7 +1,0 @@
-{
-    "watch": [
-        "src",
-        ".env"
-    ],
-    "exec": "ts-node src/index.ts"
-}
